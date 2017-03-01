@@ -3,6 +3,7 @@ package ChapterOne;
 import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ChapterOne {
@@ -16,6 +17,7 @@ public class ChapterOne {
 		System.out.println("4. palindromePermutation: Check if the string is a permutation of a palindrome");
 		System.out.println("5. oneAway: Check if two strings are off by 1 edit");
 		System.out.println("6. compress: compress a string");
+		System.out.println("7. rotateMatrix: rotates a randomly generated NxN matrix of 32-bit integers");
 		
 		Scanner in = new Scanner(System.in);
 		int choice = in.nextInt();
@@ -64,11 +66,58 @@ public class ChapterOne {
 			System.out.println("Please enter String to be compressed");
 			String s = in.nextLine();
 			System.out.println(compress(s));
+		} else if (choice == 7) {
+			System.out.println("Please enter N for the NxN matrix");
+			int n = in.nextInt();
+			rotateMatrix(n);
 		} else {
 			System.out.println("No other functions are supported at this time.");
 		}
 	}
 	
+	public static void rotateMatrix(int N){
+		if (N > 9){
+			System.out.print("This will work... but it looks like crud, so not doing it");
+			return;
+		}
+		System.out.println("Original matrix:");
+		Random rand = new Random();
+		int[][] arr = new int[N][N];
+		for (int i = 0; i < N; i++){
+			for(int j = 0; j < N; j++){
+				arr[i][j] = rand.nextInt();
+				System.out.format("%-15d", arr[i][j]);
+			}
+			System.out.println("");
+		}
+		//xp = cos(t)x - sin(t)y
+		//yp = sin(t)x + cos(t)y
+		//all new xs = 0 - (y - center) = center - y + center
+		//all new ys = x - center + center = x
+		double centerC = (N - 1) / 2.0;
+		int center = (N - 1) / 2;
+		int centerX = N % 2 == 0 ? center : center - 1;
+		for (int i = 0; i <= center; i++){
+			for (int j = 0; j <= centerX; j++){
+				int xp = (int)(centerC *2) - i;
+				int xpp = (int)(centerC *2) - j;
+				int xppp = (int)(centerC *2) - xp;
+				int temp = arr[i][j];
+				arr[i][j] = arr[xpp][xppp];
+				arr[xpp][xppp] = arr[xp][xpp];
+				arr[xp][xpp] = arr[j][xp];
+				arr[j][xp] = temp;
+			}
+		}
+		System.out.println("");
+		System.out.println("rotated matrix:");
+		for (int i = 0; i < N; i++){
+			for (int j = 0; j < N; j++){
+				System.out.printf("%-15d", arr[i][j]);
+			}
+			System.out.println("");
+		}
+	}
 	public static String compress(String s){
 		//question states that only alphabetic chars are allowed
 		StringBuilder sb = new StringBuilder();
