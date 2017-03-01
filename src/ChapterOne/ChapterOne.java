@@ -18,6 +18,7 @@ public class ChapterOne {
 		System.out.println("6. compress: compress a string");
 		System.out.println("7. rotateMatrix: rotates a randomly generated NxN matrix of 32-bit integers");
 		System.out.println("8. zeroMatrix: nullifies any row/column with a 0 in it in an NxM matrix");
+		System.out.println("9. stringRotation: checks to see if s2 is a rotation of s1");
 		Scanner in = new Scanner(System.in);
 		int choice = in.nextInt();
 		String garbage = in.nextLine();
@@ -75,9 +76,22 @@ public class ChapterOne {
 			System.out.println("Please enter the M for the NxM matrix");
 			int m = in.nextInt();
 			zeroMatrix(n, m);
+		} else if (choice == 9) {
+			System.out.println("Please enter String 1");
+			String s1 = in.nextLine();
+			System.out.println("Please enter String 2");
+			String s2 = in.nextLine();
+			System.out.println(stringRotation(s1, s2));
 		} else {
 			System.out.println("No other functions are supported at this time.");
 		}
+	}
+	
+	public static boolean stringRotation(String s1, String s2){
+		if (s2.length() != s1.length())
+			return false;
+		s2 += s2;
+		return isSubstring(s1, s2);
 	}
 	
 	public static void zeroMatrix(int N, int M){
@@ -132,19 +146,7 @@ public class ChapterOne {
 		print2DSmall(arr);
 	}
 	
-	private static void nullify(int[][] arr, int index, boolean isRow){
-		if (!isRow){
-			//nullify the column
-			for (int i = 0; i < arr.length; i++){
-				arr[i][index] = 0;
-			}
-		} else if (isRow) {
-			//nullify the row
-			for (int j = 0; j< arr[0].length; j++){
-				arr[index][j] = 0;
-			}
-		}
-	}
+	
 	public static void rotateMatrix(int N){
 		if (N > 9){
 			System.out.print("This will work... but it looks like crud, so not doing it");
@@ -333,5 +335,23 @@ public class ChapterOne {
 			}
 			System.out.println("");
 		}
+	}
+	
+	private static void nullify(int[][] arr, int index, boolean isRow){
+		if (!isRow){
+			//nullify the column
+			for (int i = 0; i < arr.length; i++){
+				arr[i][index] = 0;
+			}
+		} else if (isRow) {
+			//nullify the row
+			for (int j = 0; j< arr[0].length; j++){
+				arr[index][j] = 0;
+			}
+		}
+	}
+	
+	private static boolean isSubstring(String small, String large){
+		return large.contains(small);
 	}
 }
