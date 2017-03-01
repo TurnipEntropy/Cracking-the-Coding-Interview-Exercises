@@ -18,7 +18,7 @@ public class ChapterOne {
 		System.out.println("5. oneAway: Check if two strings are off by 1 edit");
 		System.out.println("6. compress: compress a string");
 		System.out.println("7. rotateMatrix: rotates a randomly generated NxN matrix of 32-bit integers");
-		
+		System.out.println("8. zeroMatrix: nullifies any row/column with a 0 in it in an NxM matrix");
 		Scanner in = new Scanner(System.in);
 		int choice = in.nextInt();
 		String garbage = in.nextLine();
@@ -70,11 +70,82 @@ public class ChapterOne {
 			System.out.println("Please enter N for the NxN matrix");
 			int n = in.nextInt();
 			rotateMatrix(n);
+		} else if (choice == 8) {
+			System.out.println("Please enter N for the NxM matrix");
+			int n = in.nextInt();
+			System.out.println("Please enter the M for the NxM matrix");
+			int m = in.nextInt();
+			zeroMatrix(n, m);
 		} else {
 			System.out.println("No other functions are supported at this time.");
 		}
 	}
 	
+	public static void zeroMatrix(int N, int M){
+		int[][] arr = new int[N][M];
+		Random rand = new Random();
+		System.out.println("Original matrix:");
+		for (int i = 0; i < N; i++){
+			for (int j = 0; j < M; j++){
+				arr[i][j] = rand.nextInt(7);
+				System.out.printf("%-4d", arr[i][j]);
+			}
+			System.out.println("");
+		}
+		
+		boolean nullFirstCol = false, nullFirstRow = false;
+		for (int i = 0; i < N; i++){
+			if (arr[i][0] == 0) {
+				nullFirstCol = true;
+				break;
+			}
+		}
+		for (int j = 0; j < M; j++){
+			if (arr[0][j] == 0) {
+				nullFirstRow = true;
+				break;
+			}
+		}
+		for (int i = 1; i < N; i++){
+			for (int j = 1; j < M; j++){
+				if (arr[i][j] == 0){
+					arr[i][0] = 0;
+					arr[0][j] = 0;
+				}
+			}
+		}
+		for (int i = 1; i < N; i++){
+			if (arr[i][0] == 0){
+				nullify(arr, i, true);
+			}
+		}
+		for (int j = 1; j < M; j++){
+			if (arr[0][j] == 0){
+				nullify(arr, j, false);
+			}
+		}
+		if (nullFirstCol)
+			nullify(arr, 0, false);
+		if (nullFirstRow)
+			nullify(arr, 0, true);
+		System.out.println("");
+		System.out.println("Zeroed matrix: ");
+		print2DSmall(arr);
+	}
+	
+	private static void nullify(int[][] arr, int index, boolean isRow){
+		if (!isRow){
+			//nullify the column
+			for (int i = 0; i < arr.length; i++){
+				arr[i][index] = 0;
+			}
+		} else if (isRow) {
+			//nullify the row
+			for (int j = 0; j< arr[0].length; j++){
+				arr[index][j] = 0;
+			}
+		}
+	}
 	public static void rotateMatrix(int N){
 		if (N > 9){
 			System.out.print("This will work... but it looks like crud, so not doing it");
@@ -111,12 +182,7 @@ public class ChapterOne {
 		}
 		System.out.println("");
 		System.out.println("rotated matrix:");
-		for (int i = 0; i < N; i++){
-			for (int j = 0; j < N; j++){
-				System.out.printf("%-15d", arr[i][j]);
-			}
-			System.out.println("");
-		}
+		print2DLarge(arr);
 	}
 	public static String compress(String s){
 		//question states that only alphabetic chars are allowed
@@ -250,5 +316,23 @@ public class ChapterOne {
 		}
 		
 		return true;
+	}
+	
+	private static void print2DSmall(int[][] arr){
+		for (int i = 0; i < arr.length; i++){
+			for (int j = 0; j < arr[0].length; j++){
+				System.out.printf("%-4d", arr[i][j]);
+			}
+			System.out.println("");
+		}
+	}
+	
+	private static void print2DLarge(int[][] arr){
+		for (int i = 0; i < arr.length; i++){
+			for (int j = 0; j < arr[0].length; j++){
+				System.out.printf("%-15d",  arr[i][j]);
+			}
+			System.out.println("");
+		}
 	}
 }
