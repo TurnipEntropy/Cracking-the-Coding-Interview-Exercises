@@ -85,6 +85,7 @@ public class ChapterOne {
 		} else {
 			System.out.println("No other functions are supported at this time.");
 		}
+		in.close();
 	}
 	
 	public static boolean stringRotation(String s1, String s2){

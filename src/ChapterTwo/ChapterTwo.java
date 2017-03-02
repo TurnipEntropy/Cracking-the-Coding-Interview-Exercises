@@ -97,6 +97,7 @@ public class ChapterTwo {
 		}*/ else {
 			System.out.println("No other functions are supported at this time.");
 		}
+		in.close();
 	}
 	
 	public static class LinkedList<T>{
