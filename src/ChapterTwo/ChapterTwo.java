@@ -1,6 +1,7 @@
 package ChapterTwo;
 
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ChapterTwo {
@@ -9,7 +10,11 @@ public class ChapterTwo {
 		System.out.println("1. removeDuplicates: returns the head of the LinkedList with the duplicates removed (O(N) space and time)");
 		System.out.println("2. spaceOptimizedRemoveDuplicates: does the same thing as 1, but with O(1) space and O(N^2) time");
 		System.out.println("3. kthToLast: return the kth to last element of a singly linked list. Loops around if k > size of LinkedList");
-
+		System.out.println("4. deleteMiddleNode: delete the given node from the list");
+		System.out.println("5. partition: partition the linked list around given value");
+		System.out.println("6. sumList: sum two linked list represetnations of numbers (reverse)");
+		System.out.println("7. sumListForward: sum two linked list representations of numbers (forward)");
+		System.out.println("8. isPalindrome: check if LinkedList is a palindrome.");
 		Scanner in = new Scanner(System.in);
 		int choice = in.nextInt();
 		String garbage = in.nextLine();
@@ -64,37 +69,22 @@ public class ChapterTwo {
 				System.out.println("NULL");
 			else
 				System.out.println(kth.toString());
-		} /*else if (choice == 4){
-			System.out.println("Please enter the String to be checked");
-			String s = in.nextLine();
-			System.out.println(palindromePermutation(s));
+		} else if (choice == 4) {
+			Random rand = new Random();
+			Integer[] items = new Integer[6];
+			for (int i = 0; i < 6; i++){
+				items[i] = rand.nextInt(10);
+			}
+			LinkedList<Integer> list = new LinkedList<>(items);
+			list.print();
+			System.out.println("choose the index of the node you'd like to delete");
+			int index = in.nextInt();
+			list.deleteMiddleNode(list.getNode(index));
+			list.print();
+			
 		} else if (choice == 5) {
-			System.out.println("Please enter first String");
-			String s1 = in.nextLine();
-			System.out.println("Please enter second String");
-			String s2 = in.nextLine();
-			System.out.println(oneAway(s1, s2));
-		} else if (choice == 6){
-			System.out.println("Please enter String to be compressed");
-			String s = in.nextLine();
-			System.out.println(compress(s));
-		} else if (choice == 7) {
-			System.out.println("Please enter N for the NxN matrix");
-			int n = in.nextInt();
-			rotateMatrix(n);
-		} else if (choice == 8) {
-			System.out.println("Please enter N for the NxM matrix");
-			int n = in.nextInt();
-			System.out.println("Please enter the M for the NxM matrix");
-			int m = in.nextInt();
-			zeroMatrix(n, m);
-		} else if (choice == 9) {
-			System.out.println("Please enter String 1");
-			String s1 = in.nextLine();
-			System.out.println("Please enter String 2");
-			String s2 = in.nextLine();
-			System.out.println(stringRotation(s1, s2));
-		}*/ else {
+			
+		} else {
 			System.out.println("No other functions are supported at this time.");
 		}
 		in.close();
@@ -115,6 +105,20 @@ public class ChapterTwo {
 		
 		public LinkedList(T item){
 			head = new Node<>(item);
+		}
+		
+		public Node<T> getNode(int index){
+			Node<T> runner = head;
+			int counter = 0;
+			while (counter < index){
+				runner = runner.next;
+			}
+			return runner;
+		}
+		
+		public void deleteMiddleNode(Node<T> node){
+			node.item = node.next.item;
+			node.next = node.next.next;
 		}
 		
 		public void removeNextNode (Node<T> priorNode){
@@ -175,7 +179,6 @@ public class ChapterTwo {
 			Node<T> slow = head;
 			Node<T> fast = head;
 			int counter = 0;
-			int stop = k - lastIndex;
 			while (counter < k && fast != null){
 				fast = fast.next;
 				counter++;
