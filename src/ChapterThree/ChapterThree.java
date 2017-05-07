@@ -67,10 +67,36 @@ public class ChapterThree {
 				}
 				l = in.nextLine();
 			}
+		} else if (choice == 3){
+			System.out.println("API documentation: push(T item)\n"
+					+ "pop()\npeek()\npopAt(int stackNum)\n\n"
+			        + "Please enter commands you'd like to use (type of Stack will "
+			        + "be String for ease)\n. Type \"exit\" to exit\n");
 		}
 			
 	}
-	public static class Stack<T extends Comparable<T>> implements Comparable<Stack>{
+	
+	public static class StackOfStacks{
+		
+		Stack<Stack> stacks;
+		
+		public StackOfStacks(){
+			stacks = new Stack<>();
+		}
+		
+		public boolean isEmpty(){
+			if (stacks.isEmpty()){
+				return true;
+			} else {
+				//check to see if all of the stacks in
+				//this stack are empty
+				//for now is false
+				return false;
+			}
+		}
+		
+	}
+	public static class Stack<T>{
 		T[] back;
 		int pos;
 		@SuppressWarnings("unchecked")
@@ -114,10 +140,6 @@ public class ChapterThree {
 			back = temp;
 		}
 		
-		@Override
-		public int compareTo(Stack other){
-			return Integer.compare(this.pos, other.pos);
-		}
 	}
 	public static class StackMin<T extends Comparable<T>>{
 		
